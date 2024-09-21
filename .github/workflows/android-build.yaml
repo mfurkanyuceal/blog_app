@@ -1,0 +1,41 @@
+name: Flutter CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+        FLUTTER_VERSION: '3.24.3'
+        SHOREBIRD_TOKEN: ${{ secrets.SHOREBIRD_TOKEN }}
+
+    steps:
+      # Flutter'ı indir ve yükle
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      # Ortam değişkenlerini ayarla
+      - name: Set up environment variables
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
+
+      # Flutter bağımlılıklarını yükle
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Use the setup-shorebird action to configure Shorebird
+      - name: 🐦 Setup Shorebird
+        uses: shorebirdtech/setup-shorebird@v1
+
+      - name: 🚀 Shorebird Release
+        id: shorebird-release
+        run: shorebird release android --flutter-version ${{ env.FLUTTER_VERSION }}

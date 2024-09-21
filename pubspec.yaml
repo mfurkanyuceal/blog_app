@@ -11,6 +11,12 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.6
+  flutter_dotenv: ^5.1.0
+  fpdart: ^1.1.0
+  gap: ^3.0.1
+  get_it: ^8.0.0
+  supabase_flutter: ^2.6.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -18,7 +24,9 @@ dev_dependencies:
     sdk: flutter
   package_rename: ^1.7.1
 
-flutter: {}
+flutter:
+  assets:
+    - .env
 
 package_rename_config:
   android:
