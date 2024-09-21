@@ -4,12 +4,29 @@ import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide User;
+import 'package:supabase_flutter/supabase_flutter.dart' show AuthException;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
 
   AuthRepositoryImpl(this.remoteDataSource);
+
+  @override
+  Future<Either<Failure, User>> currentUser() async {
+    try {
+      final user = await remoteDataSource.getCurrentUser();
+
+      if (user == null) {
+        return left(Failure("User not logged in"));
+      }
+
+      return right(user);
+    } on AuthException catch (e) {
+      return left(Failure(e.message));
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 
   @override
   Future<Either<Failure, User>> signInWithEmailPassword({
