@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.8
+  dotted_border: ^2.1.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
@@ -16,6 +17,7 @@ dependencies:
   fpdart: ^1.1.0
   gap: ^3.0.1
   get_it: ^8.0.0
+  image_picker: ^1.1.2
   supabase_flutter: ^2.6.0
 
 dev_dependencies:
@@ -25,6 +27,7 @@ dev_dependencies:
   package_rename: ^1.7.1
 
 flutter:
+  uses-material-design: true
   assets:
     - .env
 
