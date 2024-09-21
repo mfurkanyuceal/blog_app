@@ -1,0 +1,20 @@
+{
+    "dart.flutterSdkPath": ".fvm/versions/3.24.3",
+    "terminal.integrated.fontFamily": "meslolgs nf",
+    "debug.internalConsoleOptions": "openOnSessionStart",
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.selectionHighlight": false,
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": "off"
+    },
+    "yaml.format.enable": true,
+    "yaml.format.bracketSpacing": true,
+    "yaml.format.proseWrap": "preserve",
+    "yaml.validate": true,
+    "yaml.schemas": {}
+}
