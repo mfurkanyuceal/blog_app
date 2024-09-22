@@ -10,6 +10,7 @@ Future<File?> pickImage() async {
     if (xFile != null) {
       return File(xFile.path);
     }
+    return null;
   } catch (e) {
     return null;
   }

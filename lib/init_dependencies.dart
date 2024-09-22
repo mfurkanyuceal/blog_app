@@ -8,6 +8,13 @@ import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_in.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_app/features/blog/data/datasources/blog_remote_data_source.dart';
+import 'package:blog_app/features/blog/data/repositories/blog_repository_impl.dart';
+import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
+import 'package:blog_app/features/blog/domain/usecases/delete_blog.dart';
+import 'package:blog_app/features/blog/domain/usecases/get_all_blogs.dart';
+import 'package:blog_app/features/blog/domain/usecases/upload_blog.dart';
+import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -17,6 +24,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   await dotenv.load(fileName: ".env", mergeWith: Platform.environment);
   _initAuth();
+  _initBlog();
   final supabase = await Supabase.initialize(
     url: dotenv.get("SUPABASE_URL"),
     anonKey: dotenv.get("SUPABASE_ANON_KEY"),
@@ -60,6 +68,42 @@ void _initAuth() {
         userSignIn: serviceLocator(),
         currentUser: serviceLocator(),
         appUserCubit: serviceLocator(),
+      ),
+    );
+}
+
+void _initBlog() {
+  serviceLocator
+    ..registerFactory<BlogRemoteDataSource>(
+      () => BlogRemoteDataSourceImpl(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory<BlogRepository>(
+      () => BlogRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory<UploadBlog>(
+      () => UploadBlog(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory<DeleteBlog>(
+      () => DeleteBlog(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory<GetAllBlogs>(
+      () => GetAllBlogs(
+        serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton<BlogBloc>(
+      () => BlogBloc(
+        uploadBlog: serviceLocator(),
+        deleteBlog: serviceLocator(),
+        getAllBlogs: serviceLocator(),
       ),
     );
 }

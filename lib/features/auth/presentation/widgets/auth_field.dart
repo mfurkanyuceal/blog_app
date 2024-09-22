@@ -21,7 +21,7 @@ class AuthField extends StatelessWidget {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Please enter your $hintText";
+          return "$hintText is missing";
         }
         return null;
       },
